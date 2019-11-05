@@ -14,11 +14,11 @@ BOT_NAME = 'Lianjia'
 SPIDER_MODULES = ['Lianjia.spiders']
 NEWSPIDER_MODULE = 'Lianjia.spiders'
 
-# MONGO_HOST = '172.16.79.127'
-MONGO_HOST = '127.0.0.1'
+MONGO_HOST = '172.16.79.127'
+# MONGO_HOST = '127.0.0.1'
 MONGO_PORT = 27017
 MONGO_DBNAME = "LianjiaSpider"
-MONGO_COLL = 'Lianjia_second'
+MONGO_COLL = 'Lianjia_suzhou'
 
 REDIS_HOST = '127.0.0.1'
 REDIS_PORT = 6379

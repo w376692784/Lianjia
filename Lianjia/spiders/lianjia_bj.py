@@ -41,18 +41,12 @@ class LianjiaSpider(RedisSpider):
         item = LianjiaItem()
 
         item['title'] = response.xpath('//h1/@title').extract()[0]
-
-        item['house_type'] = re.findall(r"houseType:'(.*?')',", response.text)[0]
+        item['house_type'] = re.findall(r"houseType:'(.*?'),", response.text)[0]
         item['position'] = re.findall(r"resblockPosition:'(.*?)',", response.text)[0]
-        item['area'] = re.findall(r"area:'(.*?)',", response.text)[0]
-        item['total_price'] = re.findall(r"totalPrice:'(.*?)',", response.text)[0]
-        item['avg_price'] = re.findall(r"price:'(.*?)',", response.text)[0]
-        item['community'] = re.findall(r"resblockName:'(.*?)',", response.text)[0]
-
         base_datail = response.xpath('//*[@id="introduction"]//ul/li/text()').extract()
         item['layout'] = base_datail[0]
         item['floor'] = base_datail[1]
-        # item['area'] = base_datail[2][:-1]
+        item['area'] = base_datail[2][:-1]
 
 
         if item['house_type'] == '别墅':
@@ -66,12 +60,12 @@ class LianjiaSpider(RedisSpider):
             item['lift'] = base_datail[10]
             item['lift_proportion'] = base_datail[9]
 
-        # item['total_price'] = response.xpath('//span[@class="total"]/text()').extract()[0]
-        # item['avg_price'] = response.xpath('//span[@class="unitPriceValue"]/text()').extract()[0]
+        item['total_price'] = response.xpath('//span[@class="total"]/text()').extract()[0]
+        item['avg_price'] = response.xpath('//span[@class="unitPriceValue"]/text()').extract()[0]
 
 
         item['region'] = response.xpath('//span[@class="info"]/a[1]/text()').extract()[0]
         item['local'] = response.xpath('//span[@class="info"]/a[2]/text()').extract()[0]
-        # item['community'] = response.xpath('//div[@class="communityName"]/a[1]/text()').extract()[0]
+        item['community'] = response.xpath('//div[@class="communityName"]/a[1]/text()').extract()[0]
 
         yield item
