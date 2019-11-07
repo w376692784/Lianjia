@@ -15,6 +15,9 @@ class LianjiaItem(scrapy.Item):
 
     house_type = scrapy.Field()
     position = scrapy.Field()
+    longitude = scrapy.Field()
+    latitude = scrapy.Field()
+
 
     layout = scrapy.Field()
     floor = scrapy.Field()

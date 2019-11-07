@@ -27,9 +27,9 @@ class LianjiaSpider(RedisSpider):
     def parse_detail_page(self, response):
         total_page = json.loads(response.xpath('//div[@class="page-box fr"]/div[1]/@page-data').extract()[0])[
             "totalPage"]
-        print(total_page)
-        for i in range(1, total_page + 1):
-            yield scrapy.Request(url=response.url[:-2] + str(i) + '/', callback=self.parse_detail)
+        if total_page:
+            for i in range(1, total_page + 1):
+                yield scrapy.Request(url=response.url[:-2] + str(i) + '/', callback=self.parse_detail)
 
     def parse_detail(self, response):
         detail_url = response.xpath('//div[@class="title"]/a/@href').extract()
@@ -42,8 +42,11 @@ class LianjiaSpider(RedisSpider):
 
         item['title'] = response.xpath('//h1/@title').extract()[0]
 
-        item['house_type'] = re.findall(r"houseType:'(.*?')',", response.text)[0]
+        item['house_type'] = re.findall(r"houseType:'(.*?)',", response.text)[0]
         item['position'] = re.findall(r"resblockPosition:'(.*?)',", response.text)[0]
+        item['longitude'] = item['position'].split(',')[0]
+        item['latitude'] = item['position'].split(',')[1]
+
         item['area'] = re.findall(r"area:'(.*?)',", response.text)[0]
         item['total_price'] = re.findall(r"totalPrice:'(.*?)',", response.text)[0]
         item['avg_price'] = re.findall(r"price:'(.*?)',", response.text)[0]

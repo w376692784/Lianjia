@@ -4,6 +4,8 @@ import json
 import re
 from Lianjia.items import LianjiaItem
 from scrapy_redis.spiders import RedisSpider
+from pyecharts import options as opt
+from pyecharts.globals import GeoType
 
 class LianjiaSpider(RedisSpider):
     name = 'lianjia'
